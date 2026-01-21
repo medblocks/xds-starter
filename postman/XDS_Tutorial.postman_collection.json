@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "xds-tutorial-collection",
+		"name": "XDS Tutorial",
+		"description": "Postman collection for testing XDS Toolkit endpoints. This collection provides endpoints to interact with the NIST XDS Toolkit running on localhost:8080.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Check Registry",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/xdstools6/rest/simulators/default__testreg",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"xdstools6",
+						"rest",
+						"simulators",
+						"default__testreg"
+					]
+				},
+				"description": "Check the status of the XDS Registry simulator"
+			},
+			"response": []
+		},
+		{
+			"name": "Check Repository",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/xdstools6/rest/simulators/default__testrepo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"xdstools6",
+						"rest",
+						"simulators",
+						"default__testrepo"
+					]
+				},
+				"description": "Check the status of the XDS Repository simulator"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Documents for a Patient",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/xdstools6/rest/simulators/default__testreg/xds/GetAllDocs/[PATIENT_ID]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"xdstools6",
+						"rest",
+						"simulators",
+						"default__testreg",
+						"xds",
+						"GetAllDocs",
+						"[PATIENT_ID]"
+					]
+				},
+				"description": "Get all documents for a specific patient. Replace [PATIENT_ID] with the actual patient ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Get XML Metadata of a Patient Document",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/xdstools6/rest/simulators/default__testreg/xds/GetDoc/[DOCUMENT_ENTRY_ID]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"xdstools6",
+						"rest",
+						"simulators",
+						"default__testreg",
+						"xds",
+						"GetDoc",
+						"[DOCUMENT_ENTRY_ID]"
+					]
+				},
+				"description": "Retrieve XML metadata for a specific patient document. Replace [DOCUMENT_ENTRY_ID] with the actual document entry ID from the previous request."
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Document Content",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/xdstools6/rest/simulators/default__testrepo/document/[DOCUMENT_UNIQUE_ID]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"xdstools6",
+						"rest",
+						"simulators",
+						"default__testrepo",
+						"document",
+						"[DOCUMENT_UNIQUE_ID]"
+					]
+				},
+				"description": "Retrieve the actual document content from the repository. Replace [DOCUMENT_UNIQUE_ID] with the actual document ID."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/xdstools6",
+			"type": "string"
+		}
+	]
+}
