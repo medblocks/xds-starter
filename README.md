@@ -2,34 +2,12 @@
 
 [NIST](https://www.nist.gov/) supports the [IHE](https://www.ihe.net/) effort in Document Sharing as part of the IT Infrastructure Domain with [testing, tools, and technical](https://ihexds.nist.gov/). Here are just instructions to use the NIST [XDS Toolkit](https://github.com/usnistgov/iheos-toolkit2/releases) in a [docker](https://www.docker.com/) container.
 
-# Run XDS Toolkit with latest release from github
-
-If you have bash you can directly run xdstools with the latest release version from github
-(maybe first chmod +x ./run-xdstools.bash):
-
-```
-./run-xdstools.bash
-```
-
-XDS Toolkit can then be accessed in the browser: <http://localhost:8080/xdstools6/>
-
-## Build XDS Toolkit from source
-
-```
-git clone https://github.com/usnistgov/iheos-toolkit2.git
-(or git pull origin master if already downloaded)
-cd iheos-toolkit2
-mvn clean install -Dbuild.profile.id=Release
-```
-
-If you have a problem with resolving the dependencies on maven due to certificates ([ERROR] Failed to execute goal on project utilities: Could not resolve dependencies for project gov.nist.toolkit:utilities:jar:5.2.3))
-follow the steps as described on the [iheos-toolkit2 help for gazelle_nexus](https://github.com/usnistgov/iheos-toolkit2/wiki/gazelle_nexus), on os x you can get JAVA_HOME with export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
-
-Note: In iheos-toolkit2/tk-deps/src/main/Release.properties the path to the external cache and the port properties are set. Currently the path is fixed to /your/external/cache/location
-
-Then, copy `iheos-toolkit2/xdstools2/target/xdstools2-*.war` to this folder as `xdstools6.war`.
-
 ## Build & run XDS Toolkit in a docker container
+
+Prerequisites:
+
+- **Docker** installed and running  
+- **Postman**
 
 Build the docker image:
 
@@ -49,6 +27,23 @@ With this setup, xdstool's external cache will be saved in the `cache` directory
 ```sh
 sudo chown -R $USER:$(id -gn) cache/
 ```
+
+## Technical Notes
+
+During setup, Java 17 compatibility issues were encountered and fixed by updating the Dockerfile and Tomcat server.xml as follows:
+
+1. JAXB dependencies added: Newer Java versions (11+) don’t include JAXB (used for XML handling), so the required JAXB libraries are added back to ensure XDS Toolkit can process XML properly.
+
+2. Java module access fixes: Java 17 has stricter access rules, so a setenv.sh configuration is included with --add-opens settings to prevent runtime errors (like IllegalAccessError).
+
+3. Base image pinned: The Docker image is changed from tomcat:latest to tomcat:9-jdk17 so the environment consistently uses Java 17.
+
+4. APR SSL engine disabled: The APR SSL setting is turned off (SSLEngine="off") in server.xml to avoid failures when APR/native libraries are not available inside the container.
+
+5. AJP connector disabled: The AJP connector (port 8009) is commented out because it isn’t needed for this standalone setup.
+
+For complete setup, refer to [XDS Explained: Build a Working Document Exchange on Your Laptop
+](https://medblocks.com/blog/xds-explained-build-a-working-document-exchange-on-your-laptop)
 
 ## Postman Collection
 
